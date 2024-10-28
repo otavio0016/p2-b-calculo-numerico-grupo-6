@@ -202,10 +202,118 @@ xlabel('Faixa Etária');
 ylabel('Média de Mortalidade');
 title('Comparação de Mortalidade por Faixa Etária');
 
+# REGRESSÃO LINEAR
+# Consideramos interessante avaliar a relação entre a quantidade de células sanguíneas por paciente com a taxa de mortalidade
+# Para isso foi realizada uma regressão linear, considerando os coeficientes de regressão e o coeficiente de correlação
+# Segue o código:
 
+# LEUCÓCITOS X OUTCOME
 
+columns_names = {'Outcome', 'Patient Age', 'Gender', ...
+                 'Ventilated (Y/N)', 'Red blood cell distribution width', ...
+                 'Monocytes(%)', 'White blood cell count', ...
+                 'Platelet Count', 'Lymphocyte Count', ...,
+                 'Neutrophils Count', 'Days Hospitalized'};
 
+data = csvread('COVID-19_CBC_Data_cleaned.csv');
 
+# removendo a linha com strings dos títulos
+data(1, :) = []
 
+# Encontrar os índices das colunas de interesse
+outcome_idx = find(strcmp(columns_names, 'Outcome'));
+wbc_idx = find(strcmp(columns_names, 'White blood cell count'));
 
+# Definir as variáveis x e y
+x = data(:, wbc_idx);       # White blood cell count
+y = data(:, outcome_idx);   # Outcome
+
+# Cálculo das médias de x e y
+x_mean = mean(x);
+y_mean = mean(y);
+
+# Cálculo do coeficiente de inclinação (beta1) e do intercepto (beta0) manualmente
+numerator_beta1 = sum((x - x_mean) .* (y - y_mean));
+denominator_beta1 = sum((x - x_mean).^2);
+beta1 = numerator_beta1 / denominator_beta1;
+
+# Intercepto beta0
+beta0 = y_mean - beta1 * x_mean;
+
+# resultados da regressão leucócitos
+fprintf("Equação da regressão linear: y = %.4f + %.4f * x\n", beta0, beta1);
+
+# Cálculo do coeficiente de correlação (r) manualmente
+numerator_r = sum((x - x_mean) .* (y - y_mean));
+denominator_r = sqrt(sum((x - x_mean).^2) * sum((y - y_mean).^2));
+r = numerator_r / denominator_r;
+
+# coeficiente de correlação leucócitos
+fprintf("Coeficiente de correlação (r): %.4f\n", r);
+
+# LINFÓCITOS X OUTCOME
+
+# Encontrar os índices das colunas de interesse
+outcome_idx = find(strcmp(columns_names, 'Outcome'));
+linfo_idx = find(strcmp(columns_names, 'Lymphocyte Count'));
+
+# Definir as variáveis x e y
+x = data(:, linfo_idx);       # White blood cell count
+y = data(:, outcome_idx);   # Outcome
+
+# Cálculo das médias de x e y
+x_mean = mean(x);
+y_mean = mean(y);
+
+# Cálculo do coeficiente de inclinação (beta1) e do intercepto (beta0) manualmente
+numerator_beta1 = sum((x - x_mean) .* (y - y_mean));
+denominator_beta1 = sum((x - x_mean).^2);
+beta1 = numerator_beta1 / denominator_beta1;
+
+# Intercepto beta0
+beta0 = y_mean - beta1 * x_mean;
+
+# resultados da regressão linfócitos
+fprintf("Equação da regressão linear: y = %.4f + %.4f * x\n", beta0, beta1);
+
+# Cálculo do coeficiente de correlação (r) manualmente
+numerator_r = sum((x - x_mean) .* (y - y_mean));
+denominator_r = sqrt(sum((x - x_mean).^2) * sum((y - y_mean).^2));
+r = numerator_r / denominator_r;
+
+# coeficiente de correlação linfócitos
+fprintf("Coeficiente de correlação (r): %.4f\n", r);
+
+# NEUTRÓFILOS X OUTCOME
+
+# Encontrar os índices das colunas de interesse
+outcome_idx = find(strcmp(columns_names, 'Outcome'));
+neutro_idx = find(strcmp(columns_names, 'Neutrophils Count'));
+
+# Definir as variáveis x e y
+x = data(:, neutro_idx);       # White blood cell count
+y = data(:, outcome_idx);   # Outcome
+
+# Cálculo das médias de x e y
+x_mean = mean(x);
+y_mean = mean(y);
+
+# Cálculo do coeficiente de inclinação (beta1) e do intercepto (beta0) manualmente
+numerator_beta1 = sum((x - x_mean) .* (y - y_mean));
+denominator_beta1 = sum((x - x_mean).^2);
+beta1 = numerator_beta1 / denominator_beta1;
+
+# Intercepto beta0
+beta0 = y_mean - beta1 * x_mean;
+
+# resultados da regressão neutrófilos
+fprintf("Equação da regressão linear: y = %.4f + %.4f * x\n", beta0, beta1);
+
+# Cálculo do coeficiente de correlação (r) manualmente
+numerator_r = sum((x - x_mean) .* (y - y_mean));
+denominator_r = sqrt(sum((x - x_mean).^2) * sum((y - y_mean).^2));
+r = numerator_r / denominator_r;
+
+# coeficiente de correlação neutrófilos
+fprintf("Coeficiente de correlação (r): %.4f\n", r);
 
